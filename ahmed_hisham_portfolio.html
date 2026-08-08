@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahmed Hisham — Web Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0F2A45;
+    --ink-deep: #0A1D30;
+    --grid-line: rgba(232, 240, 250, 0.08);
+    --grid-line-strong: rgba(232, 240, 250, 0.16);
+    --paper: #F2E9DA;
+    --body-text: #D8E3EE;
+    --body-dim: #9FB2C7;
+    --amber: #E8A33D;
+    --amber-dim: #C98A2C;
+    --sage: #6FA98B;
+    --card: #14314F;
+    --card-line: rgba(232, 240, 250, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background-color: var(--ink);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 32px 32px;
+    color: var(--body-text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.6;
+  }
+
+  a { color: inherit; }
+  ::selection { background: var(--amber); color: var(--ink-deep); }
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+  .wrap { max-width: 62rem; margin: 0 auto; padding: 0 24px; }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+
+  .crosshairs { position: relative; }
+  .crosshairs::before,
+  .crosshairs::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid var(--amber-dim);
+    opacity: 0.55;
+  }
+  .crosshairs::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .crosshairs::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+  header.site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(15, 42, 69, 0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--grid-line-strong);
+  }
+  .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; }
+  .nav-inner .brand { font-family: 'Space Grotesk', sans-serif; font-weight: 600; letter-spacing: 0.02em; }
+  .nav-links { display: flex; gap: 24px; font-size: 14px; }
+  .nav-links a { text-decoration: none; color: var(--body-dim); }
+  .nav-links a:hover { color: var(--paper); }
+
+  .hero { padding: 72px 0 56px; }
+  .titleblock { border: 1.5px solid var(--grid-line-strong); padding: 28px 28px 0; margin-top: 40px; }
+  .titleblock h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+    color: var(--paper);
+  }
+  .role-line { font-size: 1.1rem; color: var(--amber); font-weight: 500; margin-bottom: 18px; }
+  .hero-tagline { max-width: 40rem; color: var(--body-text); font-size: 1.05rem; margin-bottom: 28px; }
+  .title-block-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--grid-line-strong); }
+  .tb-cell { padding: 12px 16px 16px 0; border-right: 1px solid var(--grid-line-strong); }
+  .tb-cell:last-child { border-right: none; }
+  .tb-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--body-dim); margin-bottom: 4px; }
+  .tb-value { font-size: 13px; color: var(--paper); }
+  .cta-row { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 11px 22px; text-decoration: none; font-size: 14px; font-weight: 500; border-radius: 3px; transition: transform 0.15s ease, background 0.15s ease; }
+  .btn-primary { background: var(--amber); color: var(--ink-deep); }
+  .btn-primary:hover { background: #F3B75A; transform: translateY(-1px); }
+  .btn-secondary { border: 1px solid var(--grid-line-strong); color: var(--paper); }
+  .btn-secondary:hover { border-color: var(--amber-dim); }
+
+  section { padding: 56px 0; border-top: 1px dashed var(--grid-line-strong); }
+  .section-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 32px; }
+  .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--amber-dim); }
+  h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 600; color: var(--paper); margin: 0; }
+
+  .about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; }
+  .about-text p { color: var(--body-text); margin: 0 0 16px; }
+  .about-side { display: flex; flex-direction: column; gap: 16px; }
+  .fact-card { padding: 16px 18px; border: 1px solid var(--card-line); background: var(--card); }
+  .fact-card .tb-label { margin-bottom: 6px; }
+  .fact-card p { margin: 0; color: var(--body-text); font-size: 14px; }
+
+  .edu-item { padding: 18px 0; border-bottom: 1px solid var(--grid-line-strong); }
+  .edu-item:last-child { border-bottom: none; }
+  .edu-item h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; color: var(--paper); margin: 0 0 4px; }
+  .edu-meta { color: var(--body-dim); font-size: 13px; }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .skill-group .tb-label { margin-bottom: 10px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; padding: 5px 10px; border: 1px solid var(--card-line); color: var(--body-text); background: var(--card); }
+
+  .project-card { border: 1px solid var(--card-line); background: var(--card); padding: 24px 26px; margin-bottom: 20px; }
+  .project-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .project-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; color: var(--paper); margin: 0; }
+  .project-stack { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--sage); }
+  .project-card p { color: var(--body-text); font-size: 14.5px; margin: 0 0 10px; }
+  .project-card ul { margin: 0; padding-left: 18px; color: var(--body-text); font-size: 14px; }
+  .project-card li { margin-bottom: 4px; }
+
+  .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .service-item { padding: 16px 18px; border: 1px solid var(--card-line); background: var(--card); font-size: 14.5px; color: var(--body-text); }
+  .service-item strong { color: var(--paper); display: block; margin-bottom: 4px; font-size: 15px; }
+
+  .focus-row { display: flex; flex-wrap: wrap; gap: 14px; }
+  .focus-item { flex: 1; min-width: 220px; padding: 16px 18px; border-left: 2px solid var(--amber-dim); background: var(--card); }
+  .focus-item strong { color: var(--paper); font-size: 14.5px; display: block; margin-bottom: 4px; }
+  .focus-item span { color: var(--body-dim); font-size: 13.5px; }
+
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+  .contact-card { padding: 18px; border: 1px solid var(--card-line); background: var(--card); }
+  .contact-card .tb-label { margin-bottom: 6px; }
+  .contact-card a, .contact-card span { font-size: 14px; color: var(--paper); text-decoration: none; }
+  .placeholder { color: var(--amber-dim); font-style: italic; }
+
+  footer { padding: 32px 0 60px; color: var(--body-dim); font-size: 12.5px; text-align: center; }
+
+  @media (max-width: 720px) {
+    .title-block-grid { grid-template-columns: repeat(2, 1fr); }
+    .about-grid, .skills-grid, .services-grid, .contact-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="wrap nav-inner">
+    <div class="brand mono">AH / 01</div>
+    <nav class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero" style="border-top: none; padding-top: 56px;">
+    <div class="mono" style="font-size: 12px; color: var(--body-dim); letter-spacing: 0.1em;">PORTFOLIO — REV 1.0</div>
+
+    <div class="titleblock crosshairs">
+      <h1>Ahmed Hisham</h1>
+      <div class="role-line">Web Developer — Learning &amp; Building</div>
+      <p class="hero-tagline">
+        Computer Science student building real, working projects — Django backends,
+        responsive front-ends, and databases — with everything tested end to end
+        before I call it done, not just written and assumed to work.
+      </p>
+
+      <div class="title-block-grid">
+        <div class="tb-cell">
+          <div class="tb-label">Status</div>
+          <div class="tb-value">Actively learning &amp; open to work</div>
+        </div>
+        <div class="tb-cell">
+          <div class="tb-label">Focus</div>
+          <div class="tb-value">Python / Django + JavaScript</div>
+        </div>
+        <div class="tb-cell">
+          <div class="tb-label">Based in</div>
+          <div class="tb-value placeholder">[Your city]</div>
+        </div>
+        <div class="tb-cell">
+          <div class="tb-label">Available for</div>
+          <div class="tb-value">Freelance · Internships</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="#contact" class="btn btn-primary">Get in touch</a>
+      <a href="#projects" class="btn btn-secondary">View projects</a>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-head">
+      <span class="section-num mono">01</span>
+      <h2>About</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a Computer Science student who learns by building — every concept I pick up
+          gets turned into an actual working project, not just a tutorial followed once and
+          forgotten. My recent work spans full-stack Django applications (models, admin,
+          authentication, class-based views) and front-end fundamentals (responsive layouts,
+          DOM manipulation, working with public APIs).
+        </p>
+        <p>
+          I care about things actually running correctly — testing forms with real invalid
+          input, checking the browser console for errors, and confirming database queries
+          return what I expect, rather than assuming code works because it looks right.
+        </p>
+      </div>
+      <div class="about-side">
+        <div class="fact-card">
+          <div class="tb-label">Approach</div>
+          <p>Build small, test often, read the actual error message before guessing at a fix.</p>
+        </div>
+        <div class="fact-card">
+          <div class="tb-label">Currently</div>
+          <p>Deepening Django (auth, deployment) and SQL (joins, transactions, indexing).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="section-head">
+      <span class="section-num mono">02</span>
+      <h2>Education</h2>
+    </div>
+    <div class="edu-item">
+      <h3 class="placeholder">[Your University Name]</h3>
+      <div class="edu-meta">B.Sc. Computer Science / Information Technology — <span class="placeholder">[Start year]</span>–Present</div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head">
+      <span class="section-num mono">03</span>
+      <h2>Core Skills</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="tb-label">Languages</div>
+        <div class="tag-row">
+          <span class="tag">Python</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">SQL</span>
+          <span class="tag">HTML / CSS</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="tb-label">Backend</div>
+        <div class="tag-row">
+          <span class="tag">Django</span>
+          <span class="tag">Django ORM</span>
+          <span class="tag">Django Admin</span>
+          <span class="tag">Auth &amp; Class-Based Views</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="tb-label">Frontend</div>
+        <div class="tag-row">
+          <span class="tag">Responsive / Flexbox</span>
+          <span class="tag">DOM Manipulation</span>
+          <span class="tag">Fetch API</span>
+          <span class="tag">Async / Await</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="tb-label">Databases &amp; Tools</div>
+        <div class="tag-row">
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">pgAdmin / psql</span>
+          <span class="tag">Git basics</span>
+          <span class="tag">VS Code</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-head">
+      <span class="section-num mono">04</span>
+      <h2>Projects</h2>
+    </div>
+
+    <div class="project-card">
+      <div class="project-head">
+        <h3>ShopWave — Storefront &amp; Backend</h3>
+        <span class="project-stack mono">Django · PostgreSQL · JavaScript</span>
+      </div>
+      <p>A working e-commerce storefront built in stages: product catalog, cart, and checkout on
+      the front end, then a full Django backend with users, products, orders, and order line
+      items — including atomic checkout transactions and indexed lookups.</p>
+      <ul>
+        <li>Cart and checkout flow with persisted state</li>
+        <li>Relational schema: users → orders → order_items → products</li>
+        <li>Checkout wrapped in a database transaction to keep stock counts consistent</li>
+      </ul>
+    </div>
+
+    <div class="project-card">
+      <div class="project-head">
+        <h3>Blog Platform</h3>
+        <span class="project-stack mono">Django · Class-Based Views</span>
+      </div>
+      <p>A multi-page blog application covering the full Django request cycle — from models
+      to a deployed-ready configuration.</p>
+      <ul>
+        <li>Author/Post models with an admin panel (search, list filters)</li>
+        <li>Post creation through a validated ModelForm</li>
+        <li>Login-protected views using both function and class-based patterns</li>
+        <li>Refactored to ListView / DetailView / CreateView; tested with gunicorn locally</li>
+      </ul>
+    </div>
+
+    <div class="project-card">
+      <div class="project-head">
+        <h3>Random Quote Generator</h3>
+        <span class="project-stack mono">JavaScript · Fetch API</span>
+      </div>
+      <p>A small data-driven front-end app fetching from a public API, with proper loading and
+      error states rather than assuming the network call always succeeds.</p>
+      <ul>
+        <li>Async/await with try/catch and a graceful fallback message</li>
+        <li>Loading state shown while the request is in flight</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="section-head">
+      <span class="section-num mono">05</span>
+      <h2>Services Offered</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-item">
+        <strong>Responsive landing pages</strong>
+        Clean, mobile-friendly pages built with HTML, CSS, and JavaScript.
+      </div>
+      <div class="service-item">
+        <strong>Django web apps</strong>
+        Small applications with an admin panel, forms, and user authentication.
+      </div>
+      <div class="service-item">
+        <strong>Bug fixing &amp; debugging</strong>
+        Tracking down and fixing issues in existing front-end or Django code.
+      </div>
+      <div class="service-item">
+        <strong>Database setup</strong>
+        Basic schema design and SQL queries with PostgreSQL.
+      </div>
+    </div>
+  </section>
+
+  <section id="focus">
+    <div class="section-head">
+      <span class="section-num mono">06</span>
+      <h2>Currently Learning</h2>
+    </div>
+    <div class="focus-row">
+      <div class="focus-item">
+        <strong>Django deployment</strong>
+        <span>Environment variables, static files, gunicorn</span>
+      </div>
+      <div class="focus-item">
+        <strong>SQL depth</strong>
+        <span>Joins, transactions, indexing, EXPLAIN plans</span>
+      </div>
+      <div class="focus-item">
+        <strong>Clean project structure</strong>
+        <span>Reusable templates, class-based views</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="section-head">
+      <span class="section-num mono">07</span>
+      <h2>Get in Touch</h2>
+    </div>
+    <p style="color: var(--body-text); max-width: 36rem;">
+      Open to freelance work and internship opportunities — happy to talk through
+      a project or share more of my code.
+    </p>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="tb-label">Email</div>
+        <span class="placeholder">[your.email@example.com]</span>
+      </div>
+      <div class="contact-card">
+        <div class="tb-label">GitHub</div>
+        <span class="placeholder">[github.com/your-username]</span>
+      </div>
+      <div class="contact-card">
+        <div class="tb-label">LinkedIn</div>
+        <span class="placeholder">[linkedin.com/in/your-name]</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  Ahmed Hisham — built and tested by hand, one project at a time.
+</footer>
+
+</body>
+</html>
